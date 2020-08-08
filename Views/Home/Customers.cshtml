@@ -1,26 +1,53 @@
 ﻿@model  IEnumerable<CustomerManager.Models.CustomerModel>
 @{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Clientes";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-center">@ViewData["Title"]</h1>
+<div class="container">
+  <a href="/home/new" class="btn btn-primary text-right" role="button" aria-pressed="true"> Nuevo </a>
+</div>
+<div class="row">
+
  @foreach (var item in Model)
-{   
-<div class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">@item.Name</h5>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Cras justo odio</li>
-    <li class="list-group-item">Dapibus ac facilisis in</li>
-    <li class="list-group-item">Vestibulum at eros</li>
-  </ul>
-</div>
-}
-<div class="container" >
-  <button class="btn btn-danger" type="button" onclick="hola()"></button>
-</div>
+{  
+  <div class="col-md">
 
+    <div class="card text-white bg-secondary mt-2" style="width: 18rem;">
+      <div class="card-body">
+        
+            <div class="card-header">@item.Name</div>
+            
+            <h6 class="card-text"> @item.Address</h6>
+            
+            <h6 class="card-text"> @item.Phone</h6>
+            <h6 class="card-text"> @item.CreateDate</h6>
+            <div class="row text-right">
+
+          <div class="col-">
+            <button class="btn btn-primary">Editar</button>
+          </div>
+          <div class="col-">
+            <button class="btn btn-danger"> Borrar </button>
+          </div>
+            </div>
+        
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlSelect2">Contactos</label>
+        <select multiple class="form-control" id="exampleFormControlSelect2">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+}
+</div>
 @section Scripts {
   <script>
     function hola(){

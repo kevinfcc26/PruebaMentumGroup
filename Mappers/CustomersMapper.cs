@@ -14,9 +14,9 @@ namespace CustomerManager.Mappers
             {
                 Id = entity.Id,
                 Name = entity.Name,
-                Addres = entity.Addres,
-                Number = entity.Number,
-                CreateDate = entity.CreateDate
+                Address = entity.Address,
+                Phone = entity.Phone,
+                CreateDate = entity.CreationDate
             };
         }  
         public static CustomerEntity Map(CustomerModel entity){
@@ -24,9 +24,9 @@ namespace CustomerManager.Mappers
             {
                 Id = entity.Id,
                 Name = entity.Name,
-                Addres = entity.Addres,
-                Number = entity.Number,
-                CreateDate = entity.CreateDate
+                Address = entity.Address,
+                Phone = entity.Phone,
+                CreationDate = entity.CreateDate
             };
         }  
     }

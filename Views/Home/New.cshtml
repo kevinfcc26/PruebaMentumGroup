@@ -1,0 +1,79 @@
+@model  CustomerManager.Models.CustomerModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+@using (Html.BeginForm("new","home",FormMethod.Post))
+{
+    
+<div class="container mt-5">
+<form>
+  <div class="form-group">
+    <label for="name">Nombre completo</label>
+    <input type="text" asp-for="Name" required id="Name" class="form-control" placeholder="Nombre ejemplo" >
+    <small class="form-text text-muted">Digite el nombre completo</small>
+    <span asp-validation-for="Name" class="text-danger"></span>
+  </div>
+  <div class="form-group">
+    <label for="Address"> Dirección </label>
+    <input type="address" asp-for="Address" required id="Address" class="form-control" placeholder="Carrera x # 70 - 28">
+    <small class="form-text text-muted">Digite una dirección</small>
+    <span asp-validation-for="Address" class="text-danger"></span>
+  </div>
+  <div class="form-group">
+    <label for="Number"> Número </label>
+    <input type="text" asp-for="Phone" required id="Phone" class="form-control" placeholder="1234567890">
+    <small class="form-text text-muted">Digite un numero telefonico</small>
+    <span asp-validation-for="Phone" class="text-danger"></span>
+  </div>
+  <div class="row">
+        <div class="col-md-9">
+            <div id="ErrorAlert" class="alert alert-danger" style="display:none" role="alert">
+                Error en los datos enviados!
+            </div>
+            <div id="ExitoAlert" class="alert alert-success" style="display:none" role="alert">
+                Datos recibidos correctamente!
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group float-right">
+                <img id="AjaxLoader" alt="Enviando ..." style="display:none" src="~/Images/loading.gif" />
+                &nbsp;&nbsp;
+                <button id="SubmitBtn" type="submit" class="btn btn-primary">
+                    Enviar datos
+                </button>
+            </div>
+        </div>
+    </div>
+  <button type="submit" class="btn btn-primary">Guardar</button>
+</form>
+
+@section scripts {
+  <partial name="_ValidationScriptsPartial" ></partial>
+  <script type="text/javascript">
+    $(function() {
+      $("#AjaxForm").submit(function (e){
+        e.preventDefault();
+        
+        $("#SubmitBtn").prop("disabled",true);
+
+        $.ajax({
+          url:"@Url.Action("New","Home")",
+          data: {
+            Name: $("Name").val(),
+            Address: $("Address").val(),
+            Phone: $("Phone").val()
+          },
+          type: "post"
+        });
+        .done(function( result ){
+          if( result != null ){
+            console.log("todo bien");
+          }
+        })
+      })
+    });
+  </script>
+} 
+
+</div>
+}

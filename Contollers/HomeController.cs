@@ -29,17 +29,21 @@ namespace CustomerManager.Controllers
             
             return View(customer);
         }
+        public IActionResult New(){
+            return View();
+        }
         [HttpPost]
-        public async Task<IActionResult> Nuevo(CustomerModel model){
+        public async Task<IActionResult> New(CustomerModel model){
             try
             {
                 if (ModelState.IsValid)
                 {
+                    model.CreateDate = DateTime.Now;
                    var response = await _customerRepository.Add(CustomersMapper.Map(model));
 
-                   return View();
+                   return Redirect("/home/Customers");
                 }
-                return View();
+                return View(model);
             }
             catch (System.Exception)
             {
