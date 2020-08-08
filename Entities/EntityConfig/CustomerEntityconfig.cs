@@ -11,17 +11,28 @@ namespace CustomerManager.Entities.EntityConfig
     {
         public static void SetEntityBuilder(EntityTypeBuilder<CustomerEntity> entityBuilder){
 
-            entityBuilder.ToTable("Customers");
-            
             entityBuilder.HasKey(x => x.Id);
             entityBuilder.Property(x => x.Id)
                          .IsRequired()
                          .HasColumnName("Id")
                          .HasColumnType("int");
+            entityBuilder.Property(e => e.Address)
+                         .HasMaxLength(50)
+                         .IsFixedLength(true);
 
-            entityBuilder.HasMany(x => x.Contacts)
-                         .WithOne(x => x.Customer)
-                         .HasForeignKey(x => x.CustomerId);
+            entityBuilder.Property(e => e.CreationDate)
+                         .HasColumnType("datetime")
+                         .HasAnnotation("Relational:ColumnType", "datetime");
+
+            entityBuilder.Property(e => e.Name)
+                         .IsRequired()
+                         .HasMaxLength(50)
+                         .IsFixedLength(true);
+            
+            entityBuilder.Property(e => e.Phone)
+                         .IsRequired()
+                         .HasMaxLength(10)
+                         .IsFixedLength(true);
 
         }
         

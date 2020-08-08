@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CustomerManager.Migrations
 {
     [DbContext(typeof(MentumGroupDBContext))]
-    [Migration("20200806190641_initialmigration")]
-    partial class initialmigration
+    [Migration("20200808025001_fisrtMigration")]
+    partial class fisrtMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,26 +26,32 @@ namespace CustomerManager.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("Id")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Addres")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Address")
+                        .HasMaxLength(50)
+                        .HasColumnType("nchar(50)")
+                        .IsFixedLength(true);
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nchar(50)")
+                        .IsFixedLength(true);
 
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
+                    b.Property<string>("Phone")
+                        .HasMaxLength(10)
+                        .HasColumnType("nchar(10)")
+                        .IsFixedLength(true);
 
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Contact");
+                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("CustomerManager.Entities.CustomerEntity", b =>
@@ -56,17 +62,25 @@ namespace CustomerManager.Migrations
                         .HasColumnName("Id")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Addres")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Address")
+                        .HasMaxLength(50)
+                        .HasColumnType("nchar(50)")
+                        .IsFixedLength(true);
 
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nchar(50)")
+                        .IsFixedLength(true);
 
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nchar(10)")
+                        .IsFixedLength(true);
 
                     b.HasKey("Id");
 
@@ -78,7 +92,7 @@ namespace CustomerManager.Migrations
                     b.HasOne("CustomerManager.Entities.CustomerEntity", "Customer")
                         .WithMany("Contacts")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("FK_Contacts_Customers")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618
