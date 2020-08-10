@@ -1,0 +1,18 @@
+Primer punto 
+
+SELECT Customers.Id, Customers.Name, Customers.Address, Customers.Phone, Customers.CreationDate
+FROM Customers
+INNER JOIN Contacts
+ON Customers.Id = Contacts.CustomerId where TRIM (Contacts.Name) LIKE 'carl';
+
+Segundo punto
+
+SELECT * FROM Customers
+ORDER BY CreationDate;
+
+Tercer punto
+
+SELECT Customers.Id, Customers.Name, Customers.Address, Customers.Phone, Customers.CreationDate
+FROM Customers
+INNER JOIN Contacts
+ON Customers.Id = Contacts.CustomerId where (Contacts.CustomerId > 1);
