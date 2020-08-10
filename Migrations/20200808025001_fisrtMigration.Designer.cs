@@ -29,8 +29,8 @@ namespace CustomerManager.Migrations
                         .UseIdentityColumn();
 
                     b.Property<string>("Address")
-                        .HasMaxLength(50)
-                        .HasColumnType("nchar(50)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nchar(100)")
                         .IsFixedLength(true);
 
                     b.Property<int>("CustomerId")
@@ -63,8 +63,8 @@ namespace CustomerManager.Migrations
                         .UseIdentityColumn();
 
                     b.Property<string>("Address")
-                        .HasMaxLength(50)
-                        .HasColumnType("nchar(50)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nchar(100)")
                         .IsFixedLength(true);
 
                     b.Property<DateTime>("CreationDate")

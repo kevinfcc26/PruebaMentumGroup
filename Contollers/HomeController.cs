@@ -23,17 +23,16 @@ namespace CustomerManager.Controllers
         }
         public  async Task<IActionResult> Customers()
         {
+            var viewModel = new ViewModel();
             var resp = await _customerRepository.GetAll();
             var customer = resp.Select(CustomersMapper.Map);
-            var model = new CustomerModel();
+            viewModel.ieCustomerModels = customer;
             
-            return View(customer);
-        }
-        public IActionResult New(){
-            return View();
+            
+            return View(viewModel);
         }
         [HttpPost]
-        public async Task<IActionResult> New(CustomerModel model){
+        public async Task<IActionResult> Create(CustomerModel model){
             try
             {
                 if (ModelState.IsValid)
@@ -41,9 +40,9 @@ namespace CustomerManager.Controllers
                     model.CreateDate = DateTime.Now;
                    var response = await _customerRepository.Add(CustomersMapper.Map(model));
 
-                   return Redirect("/home/Customers");
+                   return Redirect("/home");
                 }
-                return View(model);
+                return Redirect("/home");
             }
             catch (System.Exception)
             {

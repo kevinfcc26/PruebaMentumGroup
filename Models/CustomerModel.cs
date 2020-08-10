@@ -15,11 +15,11 @@ namespace CustomerManager.Models
             ErrorMessage = "El Nombre debe ser alfanumérico.")]
         [Display(Name = "Name")]
         public string Name {get; set;}
-        [StringLength(50)]
+        [StringLength(255)]
         [Required(ErrorMessage= "Este campo es obligatorio.")]
         [Display(Name = "Address")]
         public string Address {get; set;}
-        [StringLength(50)]
+        [StringLength(10)]
         [Required(ErrorMessage= "Este campo es obligatorio.")]
         [Display(Name = "Phone")]
         public string Phone {get; set;}

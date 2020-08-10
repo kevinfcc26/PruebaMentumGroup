@@ -17,7 +17,7 @@ namespace CustomerManager.Entities.EntityConfig
                          .HasColumnName("Id")
                          .HasColumnType("int");
             entityBuilder.Property(e => e.Address)
-                         .HasMaxLength(50)
+                         .HasMaxLength(100)
                          .IsFixedLength(true);
 
             entityBuilder.Property(e => e.CreationDate)

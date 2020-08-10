@@ -1,34 +1,106 @@
-﻿@model  IEnumerable<CustomerManager.Models.CustomerModel>
+﻿@model  CustomerManager.Models.ViewModel
 @{
     ViewData["Title"] = "Clientes";
 }
 
 <h1 class="text-center">@ViewData["Title"]</h1>
-<div class="container">
-  <a href="/home/new" class="btn btn-primary text-right" role="button" aria-pressed="true"> Nuevo </a>
+<div class="row">
+
+  <button type="button" class="btn btn-primary text-right ml-3" data-toggle="modal" data-target="#Create">
+    <i class="fas fa-address-book"></i>
+    Nuevo Cliente
+  </button>
 </div>
 <div class="row">
 
- @foreach (var item in Model)
+
+<!-- Modal -->
+  <div class="modal fade" id="Create" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Crear nuevo cliente</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        
+          <form id="AjaxForm">
+            <div class="form-group">
+              <label for="name">Nombre completo</label>
+              <input type="text" asp-for="customerModels.Name" required id="Name" class="form-control" placeholder="Nombre ejemplo" >
+              <small class="form-text text-muted">Digite el nombre completo</small>
+              <span asp-validation-for="customerModels.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+              <label for="Address"> Dirección </label>
+              <input type="address" asp-for="customerModels.Address" required id="Address" class="form-control" placeholder="Carrera x # 70 - 28">
+              <small class="form-text text-muted">Digite una dirección</small>
+              <span asp-validation-for="customerModels.Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+              <label for="Number"> Número </label>
+              <input type="text" asp-for="customerModels.Phone" required id="Phone" class="form-control" placeholder="1234567890">
+              <small class="form-text text-muted">Digite un numero telefonico</small>
+              <span asp-validation-for="customerModels.Phone" class="text-danger"></span>
+            </div>
+            <div class="row">
+              <div class="col-md-9">
+                <div id="ErrorAlert" class="alert alert-danger" style="display:none" role="alert">
+                  Error en los datos enviados!
+                </div>
+                <div id="ExitoAlert" class="alert alert-success" style="display:none" role="alert">
+                  Datos recibidos correctamente!
+                </div>
+              </div>
+              <div class="col-md-3">
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal"> 
+                <i class="fas fa-times-circle"></i>
+                Cerrar
+              </button>
+              <button type="submit" id="SubmitBtn" class="btn btn-primary">
+                <i class="far fa-save"></i>
+                Guardar
+                </button>
+            </div>
+            </form>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+
+ @foreach (var item in Model.ieCustomerModels)
 {  
   <div class="col-md">
 
     <div class="card text-white bg-secondary mt-2" style="width: 18rem;">
       <div class="card-body">
-        
-            <div class="card-header">@item.Name</div>
+          
+            <div class="card-header"><i class="fas fa-user mr-2"></i>@item.Name</div>
             
-            <h6 class="card-text"> @item.Address</h6>
+            <h6 class="card-text"><i class="fas fa-map-marker-alt"></i> @item.Address</h6>
             
-            <h6 class="card-text"> @item.Phone</h6>
-            <h6 class="card-text"> @item.CreateDate</h6>
+            <h6 class="card-text"><i class="fas fa-phone"></i> @item.Phone</h6>
+            <h6 class="card-text"><i class="fas fa-calendar-day"></i> @item.CreateDate</h6>
             <div class="row text-right">
 
           <div class="col-">
-            <button class="btn btn-primary">Editar</button>
+            <button class="btn btn-primary" id ="@item.Id" onclick="itemId(this.id)" data-toggle="modal" data-target="#edit">
+              <i class="fas fa-user-edit"></i>
+            </button>
           </div>
           <div class="col-">
-            <button class="btn btn-danger"> Borrar </button>
+            <button class="btn btn-danger"> 
+              <i class="fas fa-user-minus"></i>
+            </button>
           </div>
             </div>
         
@@ -47,13 +119,115 @@
   </div>
 
 }
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar cliente</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="AjaxForm">
+            <div class="form-group">
+              <label for="name">Nombre completo</label>
+              <input type="text" asp-for="customerModels.Name" required id="NameEdit" class="form-control" placeholder="Nombre ejemplo" >
+              <small class="form-text text-muted">Digite el nombre completo</small>
+              <span asp-validation-for="customerModels.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+              <label for="Address"> Dirección </label>
+              <input type="address" asp-for="customerModels.Address" required id="AddressEdit" class="form-control" placeholder="Carrera x # 70 - 28">
+              <small class="form-text text-muted">Digite una dirección</small>
+              <span asp-validation-for="customerModels.Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+              <label for="Number"> Número </label>
+              <input type="text" asp-for="customerModels.Phone" required id="PhoneEdit" class="form-control" placeholder="1234567890">
+              <small class="form-text text-muted">Digite un numero telefonico</small>
+              <span asp-validation-for="customerModels.Phone" class="text-danger"></span>
+            </div>
+            <div class="row">
+              <div class="col-md-9">
+                <div id="ErrorAlert" class="alert alert-danger" style="display:none" role="alert">
+                  Error en los datos enviados!
+                </div>
+                <div id="ExitoAlert" class="alert alert-success" style="display:none" role="alert">
+                  Datos recibidos correctamente!
+                </div>
+              </div>
+              <div class="col-md-3">
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal"> 
+                <i class="fas fa-times-circle"></i>
+                Cerrar
+              </button>
+              <button type="submit" id="SubmitBtn" class="btn btn-primary">
+                <i class="far fa-save"></i>
+                Guardar
+                </button>
+            </div>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 </div>
 @section Scripts {
-  <script>
-    function hola(){
-      console.log('hola');
-      
-    }
+  <partial name="_ValidationScriptsPartial" ></partial>
+  <script type="text/javascript">
+    $(function() {
+      $("#AjaxForm").submit(function (e){
+        e.preventDefault();
+        
+        $("#SubmitBtn").prop("disabled",true);
+        console.log('aca estoy');
+        $.ajax({
+          url:"@Url.Action("Create","Home")",
+          data: {
+            Name: $("#Name").val(),
+            Address: $("#Address").val(),
+            Phone: $("#Phone").val()
+          },
+          type: "post",
+          success: function(result){
+            if (result != null){
+              $("#PostList").html(result);
+
+              $("#PostList .row").first().hide();
+              $("#PostList .row").first().slideToggle("fast");
+
+              $("#Name").val("");
+              $("#Address").val("");
+              $("#Phone").val("");
+
+              $("#SubmitBtn").prop("disabled", false);
+
+              $("#ExitoAlert").show("slow").delay(2000).hide("slow");
+              location.reload();
+            }
+          },
+          error: function(xhr, status, error){
+            console.log('a ocurrido un error');
+            $("#ErrorAlert").show("slow").delay(2000).hide("slow");
+            $("#SubmitBtn").prop("disabled", false);
+          }
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+  function itemId(id){
+    console.log(id);
+  }
+
   </script>
   @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

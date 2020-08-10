@@ -14,7 +14,7 @@ namespace CustomerManager.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nchar(50)", fixedLength: true, maxLength: 50, nullable: false),
-                    Address = table.Column<string>(type: "nchar(50)", fixedLength: true, maxLength: 50, nullable: true),
+                    Address = table.Column<string>(type: "nchar(100)", fixedLength: true, maxLength: 100, nullable: true),
                     Phone = table.Column<string>(type: "nchar(10)", fixedLength: true, maxLength: 10, nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime", nullable: false)
                 },
@@ -30,7 +30,7 @@ namespace CustomerManager.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nchar(50)", fixedLength: true, maxLength: 50, nullable: false),
-                    Address = table.Column<string>(type: "nchar(50)", fixedLength: true, maxLength: 50, nullable: true),
+                    Address = table.Column<string>(type: "nchar(100)", fixedLength: true, maxLength: 100, nullable: true),
                     Phone = table.Column<string>(type: "nchar(10)", fixedLength: true, maxLength: 10, nullable: true),
                     CustomerId = table.Column<int>(type: "int", nullable: false)
                 },

@@ -16,7 +16,7 @@ namespace CustomerManager.Entities.EntityConfig
                          .IsRequired();
 
             entityBuilder.Property(e => e.Address)
-                         .HasMaxLength(50)
+                         .HasMaxLength(100)
                          .IsFixedLength(true);
 
             entityBuilder.Property(e => e.Name)
