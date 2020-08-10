@@ -31,6 +31,10 @@ namespace CustomerManager.Controllers
             
             return View(viewModel);
         }
+        public async Task<IActionResult> GetCustomer(string id){
+            var response = await _customerRepository.Get(Int32.Parse(id));
+            return Ok(response);
+        }
         [HttpPost]
         public async Task<IActionResult> Create(CustomerModel model){
             try
@@ -50,6 +54,19 @@ namespace CustomerManager.Controllers
                 throw;
             }
         }
+        [HttpPost]
+        public async Task<IActionResult> EditCustomer(CustomerModel Customer)
+        {
+            var resp = await _customerRepository.Update(CustomersMapper.Map(Customer));
+            return Ok(resp);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteCustomer(string id){
+            await _customerRepository.DeleteAsync(Int32.Parse(id));
+            return Ok();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
