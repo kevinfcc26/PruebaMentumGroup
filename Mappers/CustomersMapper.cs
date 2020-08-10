@@ -16,7 +16,8 @@ namespace CustomerManager.Mappers
                 Name = entity.Name,
                 Address = entity.Address,
                 Phone = entity.Phone,
-                CreateDate = entity.CreationDate
+                CreateDate = entity.CreationDate,
+                Contacts = entity.Contacts.Select(ContactsMapper.Map).ToList()
             };
         }  
         public static CustomerEntity Map(CustomerModel entity){

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using CustomerManager.Repositories;
+using CustomerManager.Mappers;
+using CustomerManager.Models;
 
 namespace CustomerManager.Controllers
 {
@@ -10,10 +13,24 @@ namespace CustomerManager.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
+        private readonly CustomerRepository _customerRepository;
+        private readonly ContactRepository _contactRepository;
+        public CustomersController(CustomerRepository customerRepository, ContactRepository contactRepository){
+            _customerRepository = customerRepository;
+            _contactRepository = contactRepository;
+        }
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public async Task<ActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            var viewModel = new ViewModel();
+            var resp = (await _customerRepository.GetAll()).Select(CustomersMapper.Map);
+
+            foreach (var item in resp)
+            {
+                item.Contacts =(await _contactRepository.getForId(item.Id)).Select(ContactsMapper.Map).ToList();
+            }
+
+            return Ok(resp);
         }
 
         [HttpGet("{id}")]

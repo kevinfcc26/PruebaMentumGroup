@@ -18,6 +18,7 @@ namespace CustomerManager
         public static IServiceCollection AddRegisterRepositories(IServiceCollection services)
         {
             services.AddTransient<CustomerRepository>();
+            services.AddTransient<ContactRepository>();
             
 
             return services;

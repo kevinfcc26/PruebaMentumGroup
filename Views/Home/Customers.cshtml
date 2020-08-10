@@ -14,7 +14,7 @@
 <div class="row">
 
 
-<!-- Modal -->
+<!-- Create Customer -->
   <div class="modal fade" id="Create" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -106,12 +106,28 @@
         
       </div>
       <div class="form-group ml-2 mr-2">
-        <label>Contactos</label>
+
+        <div class="row">
+          <div class="col-sm">
+            <label> Contactos </label>
+          </div>
+          <div class="col-sm">
+              <i class="fas fa-plus mr-4 btn btn-secondary" style="color: Dodgerblue" type="button"
+                 id="@item.Id" onclick="addContact(this.id)" data-toggle="modal" 
+                 data-target="#CreateContact"></i>
+            
+          </div>
+        </div>
+
         <select multiple class="form-control">
-          @* @foreach (var client in item.Contacts)
+          @foreach(var contact in item.Contacts)
           {
-          <option>1</option>
-          } *@
+            <option data-toggle="modal" id="@contact.Id" onclick="getContact(this.id)" data-target="#editContact" type="button">
+              <div class="row"  >
+                @contact.Name
+              </div>
+              </option>
+          }
         </select>
       </div>
     </div>
@@ -131,7 +147,7 @@
       </div>
       <div class="modal-body">
         <form id="AjaxFormEdit">
-           <div class="input-group">
+           <div class="input-group" hidden="true">
               <div class="input-group-prepend">
                <span class="input-group-text" id="validationTooltipUsernamePrepend">ID</span>
               </div>
@@ -216,6 +232,141 @@
   </div>
 </div>
 
+
+  <!-- createContact -->
+
+  <div class="modal fade" id="CreateContact" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Crear nuevo contacto</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        
+          <form id="AjaxEditContact">
+            <input type="text" id="createContactId" hidden="true">
+
+            <div class="form-group">
+              <label for="name">Nombre completo</label>
+              <input type="text" asp-for="contactModel.Name" required id="ContactName" class="form-control" placeholder="Nombre ejemplo" >
+              <small class="form-text text-muted">Digite el nombre completo</small>
+              <span asp-validation-for="contactModel.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+              <label for="Address"> Dirección </label>
+              <input type="address" asp-for="contactModel.Address" required id="ContactAddress" class="form-control" placeholder="Carrera x # 70 - 28">
+              <small class="form-text text-muted">Digite una dirección</small>
+              <span asp-validation-for="contactModel.Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+              <label for="Number"> Número </label>
+              <input type="text" asp-for="contactModel.Phone" required id="ContactPhone" class="form-control" placeholder="1234567890">
+              <small class="form-text text-muted">Digite un numero telefonico</small>
+              <span asp-validation-for="contactModel.Phone" class="text-danger"></span>
+            </div>
+            <div class="row">
+              <div class="col-md-9">
+                <div id="ErrorAlert" class="alert alert-danger" style="display:none" role="alert">
+                  Error en los datos enviados!
+                </div>
+                <div id="ExitoAlert" class="alert alert-success" style="display:none" role="alert">
+                  Datos recibidos correctamente!
+                </div>
+              </div>
+              <div class="col-md-3">
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal"> 
+                <i class="fas fa-times-circle"></i>
+                Cerrar
+              </button>
+              <button type="submit" id="SubmitBtn" class="btn btn-primary">
+                <i class="far fa-save"></i>
+                Guardar
+                </button>
+            </div>
+            </form>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  
+<!-- edit Contact -->
+<div class="modal fade" id="editContact" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ver información del contacto y editar</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="EditContactPost">
+           <div class="input-group" hidden="true">
+               <input  class="input-group-text" id="ContactIdEdit" readonly>
+           </div>
+           <div class="input-group" hidden="true">
+               <input  class="input-group-text" id="customerIdEdit" readonly>
+           </div>
+            <div class="form-group">
+              <label for="name">Nombre completo</label>
+              <input type="text" asp-for="contactModel.Name" required id="ContactNameEdit" class="form-control" placeholder="Nombre ejemplo" >
+              <small class="form-text text-muted">Digite el nombre completo</small>
+              <span asp-validation-for="contactModel.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+              <label for="Address"> Dirección </label>
+              <input type="address" asp-for="contactModel.Address" required id="ContactAddressEdit" class="form-control" placeholder="Carrera x # 70 - 28">
+              <small class="form-text text-muted">Digite una dirección</small>
+              <span asp-validation-for="contactModel.Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+              <label for="Number"> Número </label>
+              <input type="text" asp-for="contactModel.Phone" required id="ContactPhoneEdit" class="form-control" placeholder="1234567890">
+              <small class="form-text text-muted">Digite un numero telefonico</small>
+              <span asp-validation-for="contactModel.Phone" class="text-danger"></span>
+            </div>
+            <div class="row">
+              <div class="col-md-9">
+                <div id="ErrorAlert" class="alert alert-danger" style="display:none" role="alert">
+                  Error en los datos enviados!
+                </div>
+                <div id="ExitoAlert" class="alert alert-success" style="display:none" role="alert">
+                  Datos recibidos correctamente!
+                </div>
+              </div>
+              <div class="col-md-3">
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="deleteContact()">
+                <i class="fas fa-trash-alt"></i>
+                Eliminar
+              </button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal"> 
+                <i class="fas fa-times-circle"></i>
+                Cerrar
+              </button>
+              <button type="submit" id="SubmitBtn" class="btn btn-primary">
+                <i class="far fa-save"></i>
+                Guardar
+                </button>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 </div>
 @section Scripts {
@@ -370,6 +521,152 @@
         });
       })
     });
+  </script>
+
+  <script>
+    function addContact(id){
+      $('#createContactId').val(id);
+    }
+  </script>
+
+  <script type="text/javascript">
+    $(function() {
+      $("#AjaxCreateContact").submit(function (e){
+        e.preventDefault();
+          
+        $("#SubmitBtn").prop("disabled",true);
+        console.log('aca estoy');
+        $.ajax({
+          url:"@Url.Action("CreateContact","Home")",
+          data: {
+            Name: $('#ContactName').val(),
+            Address: $('#ContactAddress').val(),
+            Phone: $('#ContactPhone').val(),
+            CustomerId: $('#createContactId').val()
+          },
+          type: "post",
+          success: function(result){
+            if (result != null){
+              $("#PostList").html(result);
+
+              $("#PostList .row").first().hide();
+              $("#PostList .row").first().slideToggle("fast");
+
+              $("#Name").val("");
+              $("#Address").val("");
+              $("#Phone").val("");
+
+              $("#SubmitBtn").prop("disabled", false);
+
+              $("#ExitoAlert").show("slow").delay(2000).hide("slow");
+              location.reload();
+            }
+          },
+          error: function(xhr, status, error){
+            console.log('a ocurrido un error');
+            $("#ErrorAlert").show("slow").delay(2000).hide("slow");
+            $("#SubmitBtn").prop("disabled", false);
+          }
+        });
+      })
+    });
+  </script>
+
+
+  <script type="text/javascript">
+  function getContact(id ){
+    console.log(typeof(id));
+    $.ajax({
+      url:"@Url.Action("GetContact","Home")",
+      data: {
+        ID: id
+      },
+      type: "get",
+      success: function(res){
+        if (res != null){
+          $('#ContactIdEdit').val(res.id),
+          $('#customerIdEdit').val(res.customerId),
+          $('#ContactNameEdit').val(res.name),
+          $('#ContactAddressEdit').val(res.address),
+          $('#ContactPhoneEdit').val(res.phone)
+
+        }
+      }
+    })
+  }
+  </script>
+
+  <script type="text/javascript">
+    $(function() {
+      $("#EditContactPost").submit(function (e){
+        e.preventDefault();
+        $("#SubmitBtn").prop("disabled",true);
+        console.log('aca estoy');
+        $.ajax({
+          url:"@Url.Action("EditContact","Home")",
+          data: {
+            Id: $('#ContactIdEdit').val(),
+            customerId: $('#customerIdEdit').val(),
+            Name: $("#ContactNameEdit").val(),
+            Address: $("#ContactAddressEdit").val(),
+            Phone: $("#ContactPhoneEdit").val()
+          },
+          type: "post",
+          success: function(result){
+            if (result != null){
+              $("#PostList").html(result);
+
+              $("#PostList .row").first().hide();
+              $("#PostList .row").first().slideToggle("fast");
+
+              $("#Name").val("");
+              $("#Address").val("");
+              $("#Phone").val("");
+
+              $("#SubmitBtn").prop("disabled", false);
+
+              $("#ExitoAlert").show("slow").delay(2000).hide("slow");
+              location.reload();
+            }
+          },
+          error: function(xhr, status, error){
+            console.log('a ocurrido un error');
+            $("#ErrorAlert").show("slow").delay(2000).hide("slow");
+            $("#SubmitBtn").prop("disabled", false);
+          }
+        });
+      })
+    });
+  </script>
+
+  <script>
+    function deleteContact(){
+      $.ajax({
+          url:"@Url.Action("DeleteContact","Home")",
+          data: {
+            Id: $('#ContactIdEdit').val()
+          },
+          type: "post",
+          success: function(result){
+            if (result != null){
+              $("#PostList").html(result);
+
+              $("#PostList .row").first().hide();
+              $("#PostList .row").first().slideToggle("fast");
+
+              $("#SubmitBtn").prop("disabled", false);
+
+              $("#ExitoAlert").show("slow").delay(2000).hide("slow");
+              location.reload();
+            }
+          },
+          error: function(xhr, status, error){
+            console.log('a ocurrido un error');
+            $("#ErrorAlert").show("slow").delay(2000).hide("slow");
+            $("#SubmitBtn").prop("disabled", false);
+          }
+        });
+    }
   </script>
 
   @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

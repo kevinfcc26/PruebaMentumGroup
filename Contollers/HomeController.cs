@@ -13,8 +13,10 @@ namespace CustomerManager.Controllers
     public class HomeController : Controller
     {
         private readonly CustomerRepository _customerRepository;
-        public HomeController(CustomerRepository customerRepository){
+        private readonly ContactRepository _contactRepository;
+        public HomeController(CustomerRepository customerRepository, ContactRepository contactRepository){
             _customerRepository = customerRepository;
+            _contactRepository = contactRepository;
         }
         public IActionResult Index()
         {
@@ -24,11 +26,13 @@ namespace CustomerManager.Controllers
         public  async Task<IActionResult> Customers()
         {
             var viewModel = new ViewModel();
-            var resp = await _customerRepository.GetAll();
-            var customer = resp.Select(CustomersMapper.Map);
-            viewModel.ieCustomerModels = customer;
-            
-            
+            var resp = (await _customerRepository.GetAll()).Select(CustomersMapper.Map);
+            foreach (var item in resp)
+            {
+                item.Contacts =(await _contactRepository.getForId(item.Id)).Select(ContactsMapper.Map).ToList();
+            }
+            viewModel.ieCustomerModels = resp;
+
             return View(viewModel);
         }
         public async Task<IActionResult> GetCustomer(string id){
@@ -64,6 +68,36 @@ namespace CustomerManager.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteCustomer(string id){
             await _customerRepository.DeleteAsync(Int32.Parse(id));
+            return Ok();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> CreateContact(ContactsModel contact)
+        {
+            if (ModelState.IsValid)
+            {
+            var response = await _contactRepository.Add(ContactsMapper.Map(contact));
+                return Ok(response);
+            }
+            return Redirect("/home");
+        }
+
+        public async Task<IActionResult> GetContact(string id){
+            var response =  await _contactRepository.Get(Int32.Parse(id));
+            return Ok(response);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditContact(ContactsModel Contact)
+        {
+            var resp = await _contactRepository.Update( ContactsMapper.Map(Contact));
+            return Ok(resp);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteContact(string id){
+            await _contactRepository.DeleteAsync(Int32.Parse(id));
             return Ok();
         }
 

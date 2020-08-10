@@ -9,5 +9,6 @@ namespace CustomerManager.Models
     {
         public IEnumerable<CustomerModel> ieCustomerModels {get; set;}
         public CustomerModel customerModels {get; set;}
+        public ContactsModel contactModel {get; set;}
     }
 }

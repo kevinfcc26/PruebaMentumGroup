@@ -67,9 +67,9 @@ namespace CustomerManager.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<CustomerEntity>> GetAll()
+        public async Task<ICollection<CustomerEntity>> GetAll()
         {
-            return _mentumGroupDBContext.Customers.Select(x => x);
+            return _mentumGroupDBContext.Customers.Select(x => x).ToList();
         }
     }
 }

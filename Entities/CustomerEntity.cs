@@ -17,7 +17,7 @@ namespace CustomerManager.Entities
         public string Phone {get; set;}
         public DateTime CreationDate {get; set;}
         
-        public ICollection<ContactEntity> Contacts {get; set;}
+        public virtual ICollection<ContactEntity> Contacts {get; set;}
         
     }
 }
