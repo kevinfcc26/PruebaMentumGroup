@@ -19,39 +19,13 @@ namespace CustomerManager.Controllers
             _customerRepository = customerRepository;
             _contactRepository = contactRepository;
         }
-        [HttpGet]
-        public async Task<ActionResult> Get()
-        {
-            var viewModel = new ViewModel();
-            var resp = (await _customerRepository.GetAll()).Select(CustomersMapper.Map);
-
-            foreach (var item in resp)
-            {
-                item.Contacts =(await _contactRepository.getForId(item.Id)).Select(ContactsMapper.Map).ToList();
-            }
-
-            return Ok(resp);
-        }
-
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
-        {
-            return "value";
-        }
-
+    
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post(ContactsModel contact)
         {
+            var res = await _contactRepository.Add( ContactsMapper.Map( contact ));
+            return Ok( ContactsMapper.Map( res));
         }
 
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
